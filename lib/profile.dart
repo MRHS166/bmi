@@ -4,16 +4,35 @@ import 'user_data.dart'; // Make sure the path is correct
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
+  String getBmiStatus() {
+    final double? bmiValue = double.tryParse(UserData.bmi);
+    if (bmiValue == null) return 'Unknown';
+
+    if (bmiValue < 18.5) {
+      return 'Underweight';
+    } else if (bmiValue < 25) {
+      return 'Normal';
+    } else if (bmiValue < 30) {
+      return 'Overweight';
+    } else if (bmiValue < 35) {
+      return 'Obese Class I';
+    } else if (bmiValue < 40) {
+      return 'Obese Class II';
+    } else {
+      return 'Obese Class III';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Full black background
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black, // AppBar black too
-        iconTheme: const IconThemeData(color: Colors.white), // White back arrow
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           "Profile",
-          style: TextStyle(color: Colors.white), // Title in white
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -28,8 +47,10 @@ class ProfilePage extends StatelessWidget {
             _buildItem("Gender", UserData.gender),
             _buildItem("Weight (kg)", UserData.weight),
             _buildItem("Height (cm)", UserData.height),
-            const Divider(height: 30, color: Colors.white), // White divider
+            const Divider(height: 30, color: Colors.white),
             _buildItem("BMI", UserData.bmi),
+            const SizedBox(height: 10),
+            _buildItem("BMI Status", getBmiStatus()),
           ],
         ),
       ),
@@ -47,13 +68,13 @@ class ProfilePage extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.white, // White label
+              color: Colors.white,
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(fontSize: 16, color: Colors.white), // White value
+              style: const TextStyle(fontSize: 16, color: Colors.white),
             ),
           ),
         ],
